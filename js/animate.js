@@ -50,14 +50,23 @@ if ( !requestAnimationFrame )  {
 
 var proto = {};
 
-proto.startAnimation = function() {
+proto.startAnimation = function(delay) {
   if ( this.isAnimating ) {
     return;
   }
+  var _this = this
 
   this.isAnimating = true;
   this.restingFrames = 0;
-  this.animate();
+
+  this.element.classList.add('flickity-delay');
+  this.element.classList.add('flickity-animating');
+
+  setTimeout(function() {
+    _this.element.classList.remove('flickity-delay');
+    _this.animate();
+  }, delay);
+
 };
 
 proto.animate = function() {
@@ -140,6 +149,7 @@ proto.settle = function( previousX ) {
   // stop animating if resting for 3 or more frames
   if ( this.restingFrames > 2 ) {
     this.isAnimating = false;
+    this.element.classList.remove('flickity-animating');
     delete this.isFreeScrolling;
     // render position with translateX when settled
     this.positionSlider();

@@ -105,7 +105,8 @@ Flickity.defaults = {
   percentPosition: true,
   resize: true,
   selectedAttraction: 0.025,
-  setGallerySize: true
+  setGallerySize: true,
+  delay: 0
   // watchCSS: false,
   // wrapAround: false
 };
@@ -521,7 +522,7 @@ proto.select = function( index, isWrap, isInstant ) {
   if ( isInstant ) {
     this.positionSliderAtSelected();
   } else {
-    this.startAnimation();
+    this.startAnimation(this.options.delay);
   }
   if ( this.options.adaptiveHeight ) {
     this.setGallerySize();
