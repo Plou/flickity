@@ -3213,22 +3213,23 @@ function getArrowMovements( shape ) {
     ' Z';
 }
 
-PrevNextButton.prototype.onTap = function() {
+PrevNextButton.prototype.onTap = function(e) {
   if ( !this.isEnabled ) {
     return;
   }
   this.parent.uiChange();
   var method = this.isPrevious ? 'previous' : 'next';
+  this.parent.dispatchEvent( 'tap', e, {'direction': method} )
   this.parent[ method ]();
 };
 
 PrevNextButton.prototype.handleEvent = utils.handleEvent;
 
-PrevNextButton.prototype.onclick = function() {
+PrevNextButton.prototype.onclick = function(e) {
   // only allow clicks from keyboard
   var focused = document.activeElement;
   if ( focused && focused == this.element ) {
-    this.onTap();
+    this.onTap(e);
   }
 };
 
@@ -3612,6 +3613,9 @@ Player.prototype.pause = function() {
   if ( this.state == 'playing' ) {
     this.state = 'paused';
     this.clear();
+    if ( visibilityEvent ) {
+      document.removeEventListener( visibilityEvent, this.onVisibilityChange );
+    }
   }
 };
 

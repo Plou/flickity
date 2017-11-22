@@ -117,6 +117,9 @@ Player.prototype.pause = function() {
   if ( this.state == 'playing' ) {
     this.state = 'paused';
     this.clear();
+    if ( visibilityEvent ) {
+      document.removeEventListener( visibilityEvent, this.onVisibilityChange );
+    }
   }
 };
 
